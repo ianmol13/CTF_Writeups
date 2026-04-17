@@ -225,8 +225,6 @@ sleep 6 && ls -la /opt/xxd
 
 `xxd` converts files to hex and back. With SUID set, `/opt/xxd` runs as **root** — meaning it can write to any file on the system, including `/root/.ssh/authorized_keys`.
 
-Reference: [GTFObins — xxd](https://gtfobins.github.io/gtfobins/xxd/)
-
 **Commands:**
 ```bash
 # Write your SSH public key to root's authorized_keys
