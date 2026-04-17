@@ -247,7 +247,7 @@ Root flag: THM{REDACTED}
 
 ---
 
-## 🛡️ Vulnerability Summary
+## Vulnerability Summary
 
 | Vulnerability | Location | Impact |
 |---|---|---|
@@ -286,7 +286,3 @@ Root flag: THM{REDACTED}
 
 ---
 
-- [Synacktiv — PHP Filters Chain](https://www.synacktiv.com/en/publications/php-filters-chain-what-is-it-and-how-to-use-it)
-- [php_filter_chain_generator](https://github.com/synacktiv/php_filter_chain_generator)
-- [GTFObins — xxd](https://gtfobins.github.io/gtfobins/xxd/)
-- [TryHackMe — Cheese CTF](https://tryhackme.com/room/cheesectfv10)
