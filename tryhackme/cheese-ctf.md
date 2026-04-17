@@ -1,4 +1,4 @@
-# 🧀 Cheese CTF — TryHackMe Writeup
+# Cheese CTF — TryHackMe Writeup
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Easy-green)
 ![Category](https://img.shields.io/badge/Category-Web%20%7C%20PrivEsc-blue)
@@ -10,13 +10,13 @@
 
 ---
 
-## 📋 Summary
+## Summary
 
 Cheese CTF is a beginner-friendly Linux machine that chains several classic vulnerabilities together. The attack path starts with a SQL injection login bypass, pivots through a Local File Inclusion vulnerability exploited via PHP filter chain RCE, and escalates to root through a writable systemd timer that creates a SUID `xxd` binary.
 
 ---
 
-## 🗺️ Attack Chain Overview
+## Attack Chain Overview
 
 ```
 Login Page (SQLi bypass)
@@ -30,9 +30,9 @@ Login Page (SQLi bypass)
 
 ---
 
-## 🔍 Reconnaissance
+## Reconnaissance
 
-> ⚠️ **Note:** Port scanning with nmap is ineffective on this machine due to port spoofing — it reports hundreds of fake open ports. Skip nmap and go directly to port 80 and 22.
+>  **Note:** Port scanning with nmap is ineffective on this machine due to port spoofing — it reports hundreds of fake open ports. Skip nmap and go directly to port 80 and 22.
 
 **Real services:**
 - **Port 80** — PHP web application (Cheese Shop)
@@ -40,7 +40,7 @@ Login Page (SQLi bypass)
 
 ---
 
-## 🚪 Phase 1 — SQL Injection Login Bypass
+##  Phase 1 — SQL Injection Login Bypass
 
 **URL:** `http://<TARGET_IP>/login.php`
 
@@ -70,7 +70,7 @@ SELECT * FROM users WHERE username='' || 1=1;-- - AND password='...'
 
 ---
 
-## 📂 Phase 2 — Local File Inclusion (LFI) Discovery
+##  Phase 2 — Local File Inclusion (LFI) Discovery
 
 **URL tested:**
 ```
@@ -93,7 +93,7 @@ The `include()` function takes whatever is in `?file=` and loads it directly. Th
 
 ---
 
-## 💻 Phase 3 — LFI → Remote Code Execution via PHP Filter Chain
+##  Phase 3 — LFI → Remote Code Execution via PHP Filter Chain
 
 **How it works:**
 
@@ -129,7 +129,7 @@ stty raw -echo; fg
 
 ---
 
-## 👤 Phase 4 — Lateral Movement to User `comte`
+##  Phase 4 — Lateral Movement to User `comte`
 
 **Finding the writable file:**
 ```bash
@@ -159,7 +159,7 @@ ssh -i id_ed25519 comte@<TARGET_IP>
 cat ~/user.txt
 ```
 
-**Result:** Shell as `comte`. User flag captured. 🏁
+**Result:** Shell as `comte`. User flag captured. 
 
 ```
 User flag: THM{REDACTED}
@@ -167,7 +167,7 @@ User flag: THM{REDACTED}
 
 ---
 
-## ⚙️ Phase 5 — Privilege Escalation via Systemd Timer
+##  Phase 5 — Privilege Escalation via Systemd Timer
 
 **Check sudo permissions:**
 ```bash
@@ -219,7 +219,7 @@ sleep 6 && ls -la /opt/xxd
 
 ---
 
-## 👑 Phase 6 — Root via SUID `xxd`
+##  Phase 6 — Root via SUID `xxd`
 
 **How it works:**
 
@@ -239,7 +239,7 @@ ssh -i id_ed25519 root@<TARGET_IP>
 cat /root/root.txt
 ```
 
-**Result:** Root shell obtained. Root flag captured. 🏆
+**Result:** Root shell obtained. Root flag captured. 
 
 ```
 Root flag: THM{REDACTED}
@@ -260,7 +260,7 @@ Root flag: THM{REDACTED}
 
 ---
 
-## 🧰 Tools Used
+##  Tools Used
 
 | Tool | Purpose |
 |---|---|
@@ -273,7 +273,7 @@ Root flag: THM{REDACTED}
 
 ---
 
-## 📚 Key Concepts Learned
+##  Key Concepts Learned
 
 | Concept | Explanation |
 |---|---|
@@ -285,8 +285,6 @@ Root flag: THM{REDACTED}
 | SUID binary exploitation | Abusing SUID bit to write files as root |
 
 ---
-
-## 🔗 References
 
 - [Synacktiv — PHP Filters Chain](https://www.synacktiv.com/en/publications/php-filters-chain-what-is-it-and-how-to-use-it)
 - [php_filter_chain_generator](https://github.com/synacktiv/php_filter_chain_generator)
